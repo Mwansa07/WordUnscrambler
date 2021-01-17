@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WordUnscrambler.Data;
+using WordUnscrambler.Workers;
 
 namespace WordUnscrambler
 {
     class Program
     {
+        private static readonly FileReader _fileReader = new FileReader();
+        private static readonly WordMatcher _wordMatcher = new WordMatcher();
         private const string wordListFileName = "wordList.txt";
 
         static void Main(string[] args)
@@ -57,7 +61,7 @@ namespace WordUnscrambler
         private static void ExecuteScrambledWordsInFileScenario()
         {
             var filename = Console.ReadLine() ?? string.Empty;
-            string[] scrambledWords = _filereader.Read(filename);
+            string[] scrambledWords = _fileReader.Read(filename);
             DisplayMatchedUnscrambledWords(scrambledWords);
         }
 
@@ -65,7 +69,7 @@ namespace WordUnscrambler
         {
             string[] wordList = _fileReader.Read(wordListFileName);
 
-            List<MatchedWord> matchedWords = __wordMatcher.Match(scrambledWords, wordList);
+            List<MatchedWord> matchedWords = _wordMatcher.Match(scrambledWords, wordList);
 
             if (matchedWords.Any())
             {
